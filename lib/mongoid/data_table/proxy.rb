@@ -1,5 +1,6 @@
 require 'json'
 require 'uri'
+require 'kaminari'
 
 module Mongoid
   module DataTable
@@ -44,7 +45,7 @@ module Mongoid
 
       def collection(force = false)
         reload if force
-        @collection ||= conditions.page(current_page).per(per_page)
+        @collection ||= Kaminari.paginate_array(conditions).page(current_page).per(per_page)
       end
 
       def reload
